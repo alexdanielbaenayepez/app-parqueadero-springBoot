@@ -5,8 +5,13 @@ import org.crud.appparqueadero.repositorio.Repositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import static java.time.LocalDateTime.*;
 
 @Service
 public class RegistroService {
@@ -26,14 +31,16 @@ public class RegistroService {
         return repositorio.findById(placa).orElseThrow(()-> new RuntimeException("Placa no encontrada"));
     }
 
-    public RegistroVehiculo update(String placa, RegistroVehiculo registro){
+    public RegistroVehiculo salida (String placa, RegistroVehiculo registro){
         RegistroVehiculo registroVehiculo = repositorio.findById(placa).orElseThrow(()-> new RuntimeException("placa no encontrada"));
+
+        registroVehiculo.setFechaSalida(registro.getFechaSalida());
+
+
+        repositorio.save(registroVehiculo);
 
         return registro;
 
-        // en este metodo toca añadir una nueva bariable y es la cc del propietario para cambiar datos de la placa del
-        // vehiculo osu misma cc en caso de ser mal añadida
-        // ya que la fecha sera de forma automatica
     }
 
     public RegistroVehiculo deleteOne(String placa){
@@ -46,15 +53,28 @@ public class RegistroService {
 
     /*
      * @param CalcularPrecio
-     * Hacer un metodo que añ listar todos los vehiculos tambien erroje el total del producido de ese mes
+     * Hacer un metodo que al listar todos los vehiculos tambien erroje el total del producido de ese mes
      * un metodo que arroje el total del tiempo y el valor que un vehiculo ha estado en el parqueadero
      *
      */
-    public long CalcularPrecio(String placa, long precio, LocalDateTime fechaEntrada, LocalDateTime fechaSalida){
-       // en este metodo calcular el precio segun las horas contadas
-       // en los parametros voy a necesitar la fecha de entrada y la salida
-        // https://javautodidacta.es/tiempo-en-java-localdate-localtime/
-        // https://www.digitalocean.com/community/tutorials/java-8-date-localdate-localdatetime-instant#3-localdatetime
-        return precio;
+    public long CalcularPrecio(String placa, Repositorio repositorio, LocalDateTime fechaSalida){
+
+        int precio = 1750, total;
+
+        LocalDateTime today = now();
+        System.out.println("Current DateTime= "+today);
+
+        LocalDateTime specificDate = parse("2024-05-20T18:27:43.167794100");
+        System.out.println("Specific Date= "+specificDate);
+
+        long hours = ChronoUnit.HOURS.between(specificDate, today );
+        long meses = ChronoUnit.MONTHS.between(specificDate, today);
+        System.out.println("Hello world! hours is: "+hours +"   meses: " + meses);
+
+        System.out.println("total cobro:  "+ hours*precio);
+        total = (int) (hours*precio);
+
+        long diffInHours = Duration.between(repositorio.findFechaEntrada(placa), now()).toHours();
+        return diffInHours * 1750;
     }
 }

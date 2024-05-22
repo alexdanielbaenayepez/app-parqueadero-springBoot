@@ -25,7 +25,7 @@ public class RegistroVehiculo {
     private LocalDateTime fechaEntrada; // dia + hora https://javautodidacta.es/tiempo-en-java-localdate-localtime/
 
 
-    @Column(name = "fecha_salida", nullable = false)
+    @Column(name = "fecha_salida", nullable = true)
     private LocalDateTime fechaSalida;
    // private Duration fechaSalida = Duration.between(this.fechaEntrada, LocalDateTime.now());
 
