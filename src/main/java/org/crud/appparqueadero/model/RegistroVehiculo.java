@@ -5,11 +5,14 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
+import static java.time.LocalDateTime.now;
+
 
 @Component
 @Entity
 @Table(name = "registros")
-@Data // esta es la documentacion  https://projectlombok.org/features/Data Lombok
+@Data //esta es la documentacion  https://projectlombok.org/features/Data Lombok
+
 public class RegistroVehiculo {
 
     public RegistroVehiculo(){}
@@ -22,14 +25,14 @@ public class RegistroVehiculo {
     private String ccPropietario;
 
     @Column(name = "fecha_entrada", nullable = false )
-    private LocalDateTime fechaEntrada; // dia + hora https://javautodidacta.es/tiempo-en-java-localdate-localtime/
+    private LocalDateTime fechaEntrada = LocalDateTime.now();
 
 
-    @Column(name = "fecha_salida", nullable = true)
-    private LocalDateTime fechaSalida;
-   // private Duration fechaSalida = Duration.between(this.fechaEntrada, LocalDateTime.now());
+    @Column(name = "fecha_salida", nullable = false )
+    public LocalDateTime fechaSalida = now();
 
-    @Column(name = "tipo_vehiculo")// validar que sea un tipo de vehiculo https://docs.spring.io/spring-data/rest/reference/validation.html
+
+    @Column(name = "tipo_vehiculo")
     private String tipoVehiculo;
 
 }
