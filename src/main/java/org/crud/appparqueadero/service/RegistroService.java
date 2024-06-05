@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.time.LocalDateTime.*;
@@ -23,21 +25,6 @@ public class RegistroService {
     private RegistroVehiculo registroVehiculo;
 
 
-    public RegistroVehiculo guardar(RegistroVehiculo registroVehiculo){
-        return repositorio.save(registroVehiculo);
-    }
-
-
-    public List<RegistroVehiculo> all() {
-        return repositorio.findAll();
-    }
-
-
-    public RegistroVehiculo one(String placa){
-        return repositorio.findById(placa).orElseThrow(()-> new RuntimeException("Placa no encontrada"));
-    }
-
-
     public RegistroVehiculo salida (String placa, RegistroVehiculo registro){
 
         RegistroVehiculo registroVehiculo = repositorio.findById(placa).
@@ -51,13 +38,32 @@ public class RegistroService {
     }
 
 
-    public RegistroVehiculo deleteOne(String placa){
 
-        RegistroVehiculo registroVehiculo = repositorio.findById(placa).orElseThrow(()-> new RuntimeException("placa no encontrada"));
-        repositorio.deleteById(placa);
-        return registroVehiculo;
+
+    public static void calculateDifference(String pastDateString) {
+        // Formato de la fecha de entrada
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Convertir la fecha de entrada a LocalDateTime
+        LocalDateTime pastDate = LocalDateTime.parse(pastDateString, formatter);
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        // Calcular la diferencia en días, meses y años
+        Period period = Period.between(pastDate.toLocalDate(), currentDate.toLocalDate());
+
+        // Calcular la diferencia en horas y minutos
+        Duration duration = Duration.between(pastDate, currentDate);
+
+        // Extraer las diferencias
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = period.getDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+
+        // Imprimir la diferencia
+        System.out.println("Diferencia: " + years + " años, " + months + " meses, " + days + " días, " + hours + " horas, " + minutes + " minutos.");
     }
-
 
 
 
@@ -68,7 +74,78 @@ public class RegistroService {
         long diffInHours = Duration.between(repositorio.findFechaEntrada(), now()).toHours();
         return diffInHours * 1750;
     }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,4 +165,46 @@ public class RegistroService {
 
         System.out.println("total cobro:  "+ hours*precio);
         total = (int) (hours*precio);
+        -------------------------------------------------------------------------------------
+
+
+        import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+
+public class DateDifferenceCalculator {
+
+    public static void calculateDifference(String pastDateString) {
+        // Formato de la fecha de entrada
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Convertir la fecha de entrada a LocalDateTime
+        LocalDateTime pastDate = LocalDateTime.parse(pastDateString, formatter);
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        // Calcular la diferencia en días, meses y años
+        Period period = Period.between(pastDate.toLocalDate(), currentDate.toLocalDate());
+
+        // Calcular la diferencia en horas y minutos
+        Duration duration = Duration.between(pastDate, currentDate);
+
+        // Extraer las diferencias
+        int years = period.getYears();
+        int months = period.getMonths();
+        int days = period.getDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+
+        // Imprimir la diferencia
+        System.out.println("Diferencia: " + years + " años, " + months + " meses, " + days + " días, " + hours + " horas, " + minutes + " minutos.");
+    }
+
+    public static void main(String[] args) {
+        // Ejemplo de uso
+        String pastDateString = "2021-05-15 08:30:00";
+        calculateDifference(pastDateString);
+    }
+}
+
 */

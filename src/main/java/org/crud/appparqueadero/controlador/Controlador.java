@@ -18,17 +18,21 @@ public class Controlador {
     private Repositorio repositorio;
 
     @PostMapping("/guardar")
-    public ResponseEntity<RegistroVehiculo> registrar(@RequestBody RegistroVehiculo registroVehiculo) {
-        RegistroVehiculo registro = registroService.guardar(registroVehiculo);
-        return ResponseEntity.ok(registro);
+    public ResponseEntity<RegistroVehiculo> registrar(@RequestBody String placa, String tipo) {
+
+        RegistroVehiculo registro = new RegistroVehiculo(placa, tipo);
+                registro.setPlaca(placa);
+                registro.setTipoVehiculo(tipo);
+
+        return ResponseEntity.ok(repositorio.save(registro));
     }
 
     @GetMapping("/todos")
     public List<RegistroVehiculo> GetAll(){
-        return registroService.all();
+        return repositorio.findAll();
     }
 
-    @PutMapping("/registro/{placa}")
+    @PutMapping("/salida/{placa}")
 
     public RegistroVehiculo salida (@RequestBody RegistroVehiculo registroVehiculo, @PathVariable String placa) {
         return registroService.salida(placa, registroVehiculo);
@@ -36,9 +40,10 @@ public class Controlador {
 
 
 
-    @DeleteMapping("/eliminarRegistro")
+ /*   @DeleteMapping("/eliminarRegistro")
     public ResponseEntity<RegistroVehiculo> deleteOne(@RequestParam(name="placa") String placa){
-        return ResponseEntity.ok(registroService.deleteOne(placa));
-    }
 
+        return ResponseEntity.ok(repositorio.deleteById(placa));
+    }
+*/
 }

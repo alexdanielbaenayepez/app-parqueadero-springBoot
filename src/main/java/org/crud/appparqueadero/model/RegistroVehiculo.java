@@ -15,24 +15,25 @@ import static java.time.LocalDateTime.now;
 
 public class RegistroVehiculo {
 
-    public RegistroVehiculo(){}
+    public RegistroVehiculo(String placa, String tipoVehiculo){
+        this.placa = placa;
+        this.tipoVehiculo = tipoVehiculo;
+    }
 
     @Id
     @Column(name = "placa", nullable=false, unique = true)
     private String placa;
 
-    @Column(name="cc_propietario")
-    private String ccPropietario;
-
     @Column(name = "fecha_entrada", nullable = false )
     private LocalDateTime fechaEntrada = LocalDateTime.now();
 
-
     @Column(name = "fecha_salida", nullable = false )
-    public LocalDateTime fechaSalida = now();
-
+    private LocalDateTime fechaSalida = now();
 
     @Column(name = "tipo_vehiculo")
     private String tipoVehiculo;
 
+    public RegistroVehiculo() {
+
+    }
 }
