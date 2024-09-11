@@ -10,4 +10,6 @@ public interface Repositorio extends JpaRepository<RegistroVehiculo, String> {
 
     @Query(value = "SELECT  fecha_entrada  FROM registros", nativeQuery = true)
     LocalDateTime  findFechaEntrada ();
+
+    boolean deleteAllById(String placa);
 }

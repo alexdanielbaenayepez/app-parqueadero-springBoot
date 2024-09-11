@@ -39,11 +39,10 @@ public class Controlador {
     }
 
 
-
- /*   @DeleteMapping("/eliminarRegistro")
-    public ResponseEntity<RegistroVehiculo> deleteOne(@RequestParam(name="placa") String placa){
-
-        return ResponseEntity.ok(repositorio.deleteById(placa));
+/*
+    @DeleteMapping("/eliminarRegistro/{placa}")
+    public ResponseEntity<RegistroVehiculo> deleteOne(@PathVariable String placa){
+    boolean delete = repositorio.deleteAllById(placa);
     }
 */
 }

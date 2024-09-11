@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Optional;
+
 
 import static java.time.LocalDateTime.*;
 
@@ -40,19 +40,20 @@ public class RegistroService {
 
 
 
-    public static void calculateDifference(String pastDateString) {
-        // Formato de la fecha de entrada
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        // Convertir la fecha de entrada a LocalDateTime
-        LocalDateTime pastDate = LocalDateTime.parse(pastDateString, formatter);
-        LocalDateTime currentDate = LocalDateTime.now();
 
+
+
+// el metodo esta mal hecho no esta cumpliendo su tarea de calcular la diferencia porque no puedo utilizar la placa para identificar el vehiculo
+
+    public void calculateDifference(String placa, RegistroVehiculo registroVehiculo2, Repositorio repositorio) {
+
+        Optional<RegistroVehiculo> registroVehiculo = repositorio.findById(placa);
         // Calcular la diferencia en días, meses y años
-        Period period = Period.between(pastDate.toLocalDate(), currentDate.toLocalDate());
+        Period period = Period.between(registroVehiculo.get().getFechaEntrada().toLocalDate(), registroVehiculo.get().getFechaSalida().toLocalDate());
 
         // Calcular la diferencia en horas y minutos
-        Duration duration = Duration.between(pastDate, currentDate);
+        Duration duration = Duration.between(registroVehiculo.get().getFechaEntrada(), registroVehiculo.get().getFechaSalida());
 
         // Extraer las diferencias
         int years = period.getYears();
@@ -60,6 +61,7 @@ public class RegistroService {
         int days = period.getDays();
         long hours = duration.toHours() % 24;
         long minutes = duration.toMinutes() % 60;
+
 
         // Imprimir la diferencia
         System.out.println("Diferencia: " + years + " años, " + months + " meses, " + days + " días, " + hours + " horas, " + minutes + " minutos.");
