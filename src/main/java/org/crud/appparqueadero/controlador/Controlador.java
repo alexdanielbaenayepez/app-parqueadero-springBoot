@@ -18,7 +18,7 @@ public class Controlador {
     private Repositorio repositorio;
 
     @PostMapping("/ingreso")
-    public R    esponseEntity<RegistroVehiculo> ingreso(@RequestBody RegistroVehiculo registroVehiculo) {
+    public ResponseEntity<RegistroVehiculo> ingreso(@RequestBody RegistroVehiculo registroVehiculo) {
         RegistroVehiculo registro = registroService.guardar(registroVehiculo);
         return ResponseEntity.ok(registro);
     }

@@ -47,3 +47,18 @@ public ResponseEntity<List<RegistroVehiculo>> getAll() {
 ```
 ## JPA
 ![JPA](Docs/jpa.png)
+
+## Arquitectura de sofware
+![JPA](Docs/arquitectura.png)
+
+## Diagrama de secuencias
+![JPA](Docs/secuencias.jpg)
+
+## Diagrama de Clases
+![JPA](Docs/clases.png)
+
+## Diagrama de Componentes
+![JPA](Docs/componentes.png)
+
+
+
